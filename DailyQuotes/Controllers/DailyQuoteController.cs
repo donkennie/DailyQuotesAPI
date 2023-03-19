@@ -16,10 +16,10 @@ namespace DailyQuotes.Controllers
             _mediator= mediator;
         }
 
-        [HttpGet("location")]
+        [HttpGet("dailyQuote")]
         [ProducesResponseType(typeof(RootObject), StatusCodes.Status200OK)]
         //[ProducesResponseType(typeof(BaseCommandResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetCurrentWeatherByLocation()
+        public async Task<IActionResult> GetDailyQuote()
         {
            var result = await _mediator.Send(new GetDailyQuoteRequest() { });
            return Ok(result);

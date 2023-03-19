@@ -9,11 +9,13 @@ namespace DailyQuotes.Features.Command
 {
     public class GetDailyQuoteRequestHandler : IRequestHandler<GetDailyQuoteRequest, ResultResponse<Response>>
     {
-        public readonly IDailyQuoteRepository _dailyQuoteRepository;
+        private readonly IDailyQuoteRepository _dailyQuoteRepository;
+        private readonly IEmailSender _emailSender;
 
-        public GetDailyQuoteRequestHandler(IDailyQuoteRepository dailyQuoteRepository)
+        public GetDailyQuoteRequestHandler(IDailyQuoteRepository dailyQuoteRepository, IEmailSender emailSender)
         {
             _dailyQuoteRepository = dailyQuoteRepository;
+            _emailSender = emailSender;
         }
 
 
@@ -24,6 +26,15 @@ namespace DailyQuotes.Features.Command
             {
                 return ResultResponse<Response>.Failure("Not Found");
             }
+
+            var response = new Response()
+            {
+                Author = query.Author,
+                Body = query.Body,
+            };
+
+
+             await _emailSender.SendEmailAsync("ajeigbekehinde160@gmail.com", response.Author , response.Body);
 
             return ResultResponse<Response>.Success(query);
         }

@@ -13,6 +13,8 @@ namespace DailyQuotes.Extensions
 
             services.AddScoped<IDailyQuoteRepository, DailyQuoteRepository>();
 
+            services.AddScoped<IEmailSender, EmailSender>();
+
             services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(GetDailyQuoteRequestHandler).Assembly));
 
             return services;
